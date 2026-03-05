@@ -1,8 +1,8 @@
-# Height Estimator (IRT + Machine Learning)
+# Height Estimator (IRT + Linear Regression)
 
 This project predicts a person's height using answers from a binary questionnaire.
 
-The system uses **Item Response Theory (IRT)** to estimate a latent trait from the answers and then predicts height using a **linear regression model**.
+The system uses **Item Response Theory (IRT)** to estimate a latent trait from the answers and then predicts height using a **Linear Regression model**.
 
 The application is deployed as a **REST API** and a **Shiny front-end**.
 
