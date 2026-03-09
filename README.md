@@ -16,19 +16,19 @@ Height-Estimator/
 
 **├─ api/**               *(Plumber API + healthcheck)*
 
-**├─ data/**              *data files* 
+**├─ data/**              *(data files)* 
 
-**├─ frontend/**          *Shiny frontend*
+**├─ frontend/**          *(Shiny frontend)*
 
-**├─ models/**            *saved models (.rds)*
+**├─ models/**            *(saved models)*
 
-**├─ training/**          *scripts to train IRT and Linear Regression*
+**├─ training/**          *(scripts to train IRT and Linear Regression)*
 
 **├─ .dockerignore**
 
 **├─ .gitignore**
 
-**├─ docker-compose.yml** *container orchestration*
+**├─ docker-compose.yml** *(container orchestration)*
 
 **└─ README.md**
 
