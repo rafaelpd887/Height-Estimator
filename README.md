@@ -13,6 +13,7 @@ The application is deployed as a **REST API** (Plumber) and a **Shiny front-end*
 
 ## Project Structure
 Height-Estimator/
+
 ├─ training/ # scripts para treinar IRT e Linear Regression
 ├─ models/ # modelos salvos (.rds)
 ├─ api/ # Plumber API + healthcheck
@@ -40,9 +41,13 @@ User answers ➡️ IRT model ➡️ θ ➡️ Linear Regression ➡️ Height
 
 ## Architecture
 Frontend (Shiny)
+
 ↓
+
 REST API (Plumber)
+
 ↓
+
 IRT + Linear Regression models
 
 ---
