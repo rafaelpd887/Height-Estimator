@@ -73,7 +73,7 @@ server <- function(input, output, session) {
     }
   })
   
-  # Função auxiliar para tratar a resposta da API (usada nos dois botões)
+  # Helper function to handle the API response (used for buttons Yes and No)
   process_api_response <- function(response) {
     if (http_error(response)) {
       return("Erro na conexão com a API.")
@@ -85,13 +85,13 @@ server <- function(input, output, session) {
       return("Resposta da API inválida.")
     }
     
-    # Tratamento robusto: pode vir como número, lista de 1 elemento ou string
+    # Robust handling
     height_raw <- result$height
     if (is.list(height_raw) && length(height_raw) == 1) {
       height_raw <- height_raw[[1]]
     }
     
-    # Converte com segurança
+    # Safely converts
     height_num <- suppressWarnings(as.numeric(as.character(height_raw)))
     
     if (is.na(height_num) || !is.finite(height_num)) {
