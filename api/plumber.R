@@ -38,8 +38,8 @@ predict_height <- function(answers){
   return(as.numeric(height)[1])
 }
 
-#* Prediz altura a partir das respostas
-#* @param answers:list vetor de respostas (0 ou 1)
+#* Predicts height from the answers
+#* @param answers:list vector of answers (0 or 1)
 #* @post /predict
 function(answers){
   
