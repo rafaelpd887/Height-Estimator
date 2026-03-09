@@ -1,6 +1,6 @@
 FROM rocker/r-ver:4.3.1
 
-# Instala dependências de sistema 
+# System libraries 
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-# Instala pacotes R 
+# R packages 
 RUN install2.r --error --skipinstalled \
     Rcpp \
     RcppArmadillo \
@@ -18,7 +18,7 @@ RUN install2.r --error --skipinstalled \
     mirt \
     jsonlite
 
-# Copia código e modelos
+# Copy code and model
 COPY api/plumber.R /app/plumber.R
 COPY models /app/models
 
