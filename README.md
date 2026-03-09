@@ -49,15 +49,19 @@ User answers ➡️ IRT model ➡️ θ ➡️ Linear Regression ➡️ Height
 ---
 
 ## Architecture
-Frontend (Shiny)
 
-↓
+**Frontend (Shiny)**  
+_User interacts with the app_
 
-REST API (Plumber)
+↓  
 
-↓
+**REST API (Plumber)**  
+_Receives requests and handles prediction logic_
 
-IRT + Linear Regression models
+↓  
+
+**IRT + Linear Regression models**  
+_Estimates latent trait θ and predicts height_
 
 ---
 
