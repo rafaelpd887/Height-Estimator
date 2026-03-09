@@ -14,7 +14,7 @@ The application is deployed as a **REST API** (Plumber) and a **Shiny front-end*
 ## Project Structure
 Height-Estimator/
 
-├─ api/               # Plumber API + healthcheck
+**├─ api/**               *Plumber API + healthcheck*
 
 ├─ data/              # data files 
 
