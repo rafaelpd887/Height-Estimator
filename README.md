@@ -14,19 +14,21 @@ The application is deployed as a **REST API** (Plumber) and a **Shiny front-end*
 ## Project Structure
 Height-Estimator/
 
-├─ training/ # scripts para treinar IRT e Linear Regression
+├─ api/               # Plumber API + healthcheck
 
-├─ models/ # modelos salvos (.rds)
+├─ data/              # data files 
 
-├─ api/ # Plumber API + healthcheck
+├─ frontend/          # Shiny frontend
 
-├─ frontend/ # Shiny frontend
+├─ models/            # saved models (.rds)
 
-├─ docker-compose.yml # orquestra containers
+├─ training/          # scripts to train IRT and Linear Regression
+
+├─ .dockerignore
 
 ├─ .gitignore
 
-├─ .dockerignore
+├─ docker-compose.yml # container orchestration
 
 └─ README.md
 
