@@ -1,0 +1,25 @@
+FROM rocker/shiny:4.3.1
+
+# Bibliotecas do sistema necessárias
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Pacotes R necessários
+RUN R -e "install.packages(c('shiny','httr'), repos='https://cloud.r-project.org')"
+
+# Define diretório do app dentro do container
+WORKDIR /srv/shiny-server/
+
+# Copia o app.R
+COPY frontend/app.R /srv/shiny-server/
+
+# Copia o arquivo RData que está na raiz do projeto
+COPY data/questionnaire_text_structure.RData /srv/shiny-server/data/
+
+EXPOSE 3838
+
+CMD ["R", "-e", "shiny::runApp('.', host='0.0.0.0', port=3838)"]

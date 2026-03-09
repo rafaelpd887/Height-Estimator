@@ -1,0 +1,29 @@
+FROM rocker/r-ver:4.3.1
+
+# Instala dependências de sistema (menos que antes, rocker já tem muitas)
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    libblas-dev \
+    liblapack-dev \
+    gfortran \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instala pacotes R na ordem certa
+RUN install2.r --error --skipinstalled \
+    Rcpp \
+    RcppArmadillo \
+    plumber \
+    mirt \
+    jsonlite
+
+# Copia o código
+COPY api/plumber.R /app/plumber.R
+COPY models /app/models
+
+WORKDIR /app
+
+EXPOSE 8000
+
+CMD ["R", "-e", "pr <- plumber::plumb('plumber.R'); pr$run(host='0.0.0.0', port=8000, debug=TRUE)"]
