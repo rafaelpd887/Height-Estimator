@@ -82,7 +82,7 @@ _Estimates latent trait θ and predicts height_
 Start the API:
 
 ```
-Rscript api/plumber_api.R
+Rscript api/plumber.R
 ```
 
 Run Shiny frontend:
