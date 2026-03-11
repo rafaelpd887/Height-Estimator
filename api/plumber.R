@@ -33,7 +33,7 @@ predict_height <- function(answers){
     newdata = data.frame(theta = theta)
   )
   
-  print(paste("altura predita:", height))
+  print(paste("predicted height:", height))
   
   return(as.numeric(height)[1])
 }
