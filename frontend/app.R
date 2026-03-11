@@ -3,7 +3,7 @@ library(httr)
 
 load("data/questionnaire_text_structure.RData")
 questions <- as.character(questionnaire[1, 1:14])
-API_URL <- "http://api:8000/predict"
+API_URL <- Sys.getenv("API_URL")
 
 ui <- fluidPage(
   

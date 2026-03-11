@@ -1,9 +1,10 @@
 library(plumber)
 library(mirt)
+library(here)
 
-model_tri <- readRDS("models/model_irt.rds")
-model_lm <- readRDS("models/model_lm.rds")
-item_names <- readRDS("models/item_names.rds")
+model_tri <- readRDS(here("models/model_irt.rds"))
+model_lm <- readRDS(here("models/model_lm.rds"))
+item_names <- readRDS(here("models/item_names.rds"))
 
 predict_height <- function(answers){
   
@@ -39,7 +40,7 @@ predict_height <- function(answers){
 }
 
 #* Predicts height from the answers
-#* @param answers:list vector of answers (0 or 1)
+#* @param answers:list vector of answers (0 ou 1)
 #* @post /predict
 function(answers){
   
