@@ -9,7 +9,7 @@ predict_height <- function(answers){
   
   answers <- as.numeric(unlist(answers))
   
-  print("answers received:")
+  print("received answers:")
   print(answers)
   print(length(answers))
   
