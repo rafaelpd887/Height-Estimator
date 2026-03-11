@@ -20,11 +20,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e 'install.packages(c("plumber","mirt","testthat","httr","jsonlite"), repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages("plumber", repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages("mirt", repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages("testthat", repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages("httr", repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages("jsonlite", repos="https://cloud.r-project.org")'
 
       - name: Start API
         run: |
-          nohup Rscript api/plumber.R > api.log 2>&1 &
+          Rscript api/plumber.R &
 
       - name: Wait for API
         run: sleep 10
