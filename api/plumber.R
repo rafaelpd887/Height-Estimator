@@ -58,7 +58,7 @@ function(){
 }
 
 # Inicia o Plumber API
-pr <- plumber::plumb("api/plumber.R")  # ou here::here("api/plumber.R")
+pr <- plumber::plumb(here::here("api", "plumber.R"))
 
 pr$run(
   host = "0.0.0.0",
