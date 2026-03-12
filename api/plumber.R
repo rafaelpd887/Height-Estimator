@@ -56,3 +56,12 @@ function(answers){
 function(){
   list(status = "ok")
 }
+
+# Inicia o Plumber API
+pr <- plumber::plumb(__file__)  # __file__ pega o caminho do script atual
+
+pr$run(
+  host = "0.0.0.0",             # permite conexões de localhost no CI
+  port = 8000,
+  quiet = FALSE                 # mostra mensagens de start no log
+)
