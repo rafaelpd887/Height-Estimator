@@ -17,7 +17,7 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.4'
+          r-version: '4.4'  # ou 'release' se preferir a mais nova
 
       - name: Install system dependencies (essencial para httr, curl, xml2, mirt etc.)
         if: runner.os == 'Linux'
@@ -46,22 +46,25 @@ jobs:
             'httr',
             'jsonlite',
             'testthat',
-            'here'          # <--- ADICIONADO AQUI!
+            'here',
+            'readr',
+            'dplyr',
+            'tibble',
+            'purrr',
+            'fs'
           ), repos = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest', dependencies = TRUE)"
 
       - name: Start Plumber API in background
         run: |
           nohup Rscript api/plumber.R > plumber.log 2>&1 &
           echo $! > api.pid
-          sleep 20
+          sleep 20  # tempo inicial para carregar modelos e iniciar servidor
 
       - name: Wait for API to be ready
         run: |
           for i in {1..40}; do
-            if curl --fail -s http://localhost:8000/__docs__/ > /dev/null || \
-               curl --fail -s http://localhost:8000/ > /dev/null || \
-               curl --fail -s http://localhost:8000/health > /dev/null; then
-              echo "API is up!"
+            if curl --fail -s http://localhost:8000/health > /dev/null; then
+              echo "API is up! /health retornou OK"
               exit 0
             fi
             echo "Waiting for API... ($i/40)"
@@ -70,6 +73,15 @@ jobs:
           echo "API failed to start. Logs:"
           cat plumber.log
           exit 1
+
+      - name: Run tests
+        run: Rscript -e 'testthat::test_dir("tests")'
+
+      - name: Stop Plumber API
+        if: always()
+        run: |
+          sleep 5  # dá tempo para conexões pendentes finalizarem
+          kill $(cat api.pid) || true
 
       - name: Show Plumber logs on failure (debug)
         if: failure()
