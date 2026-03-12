@@ -17,9 +17,9 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.4'  # ou 'release' para a mais recente estável
+          r-version: '4.4'  # ou 'release' para a mais recente; 4.4 é estável
 
-      - name: Install system dependencies (for httr, curl, xml2 etc.)
+      - name: Install system dependencies (essencial para httr, curl, xml2, mirt etc.)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
@@ -33,47 +33,46 @@ jobs:
             libfreetype6-dev \
             libpng-dev \
             libtiff5-dev \
-            libjpeg-dev
+            libjpeg-dev \
+            libblas-dev \
+            liblapack-dev \
+            gfortran
 
-      - name: Install R dependencies (from DESCRIPTION if exists)
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          cache: true
-          extra-packages: |
-            any::testthat
-            any::httr
-            any::jsonlite
-            local::.  # instala o seu próprio pacote se for um package
-
-      # Alternativa se NÃO tiver DESCRIPTION: descomente e use isso em vez do passo acima
-      # - name: Install required packages manually
-      #   run: |
-      #     install.packages(c("plumber", "mirt", "testthat", "httr", "jsonlite"),
-      #                      repos = "https://packagemanager.posit.co/cran/__linux__/jammy/latest")
+      - name: Install R packages manually
+        run: |
+          Rscript -e "install.packages(c(
+            'plumber',
+            'mirt',
+            'httr',
+            'jsonlite',
+            'testthat'
+          ), repos = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest', dependencies = TRUE)"
 
       - name: Start Plumber API in background
         run: |
           nohup Rscript api/plumber.R > plumber.log 2>&1 &
           echo $! > api.pid
-          sleep 15  # dá mais tempo pro servidor subir
+          sleep 20  # mais tempo para subir (mirt pode demorar)
 
       - name: Wait for API to be ready
         run: |
-          for i in {1..30}; do
-            if curl -s --fail http://localhost:8000/__docs__/ >/dev/null || curl -s --fail http://localhost:8000/health >/dev/null; then
+          for i in {1..40}; do
+            if curl --fail -s http://localhost:8000/__docs__/ > /dev/null || \
+               curl --fail -s http://localhost:8000/ > /dev/null || \
+               curl --fail -s http://localhost:8000/health > /dev/null; then
               echo "API is up!"
               exit 0
             fi
-            echo "Waiting for API... ($i/30)"
-            sleep 2
+            echo "Waiting for API... ($i/40)"
+            sleep 3
           done
-          echo "API failed to start"
+          echo "API failed to start. Logs:"
           cat plumber.log
           exit 1
 
       - name: Run tests
         run: Rscript -e 'testthat::test_dir("tests")'
 
-      - name: Show Plumber logs if failed (debug)
+      - name: Show Plumber logs on failure (debug)
         if: failure()
         run: cat plumber.log || true
