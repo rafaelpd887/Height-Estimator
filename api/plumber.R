@@ -58,10 +58,10 @@ function(){
 }
 
 # Inicia o Plumber API
-pr <- plumber::plumb(__file__)  # __file__ pega o caminho do script atual
+pr <- plumber::plumb("api/plumber.R")  # ou here::here("api/plumber.R")
 
 pr$run(
-  host = "0.0.0.0",             # permite conexões de localhost no CI
+  host = "0.0.0.0",
   port = 8000,
-  quiet = FALSE                 # mostra mensagens de start no log
+  quiet = FALSE
 )
