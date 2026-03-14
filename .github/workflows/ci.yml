@@ -58,13 +58,13 @@ jobs:
         run: |
           nohup Rscript api/plumber.R > plumber.log 2>&1 &
           echo $! > api.pid
-          sleep 20  # tempo inicial para carregar modelos e iniciar servidor
+          sleep 20  
 
       - name: Wait for API to be ready
         run: |
           for i in {1..40}; do
             if curl --fail -s http://localhost:8000/health > /dev/null; then
-              echo "API is up! /health retornou OK"
+              echo "API is up! /health returned OK"
               exit 0
             fi
             echo "Waiting for API... ($i/40)"
@@ -80,7 +80,7 @@ jobs:
       - name: Stop Plumber API
         if: always()
         run: |
-          sleep 5  # dá tempo para conexões pendentes finalizarem
+          sleep 5  
           kill $(cat api.pid) || true
 
       - name: Show Plumber logs on failure (debug)
