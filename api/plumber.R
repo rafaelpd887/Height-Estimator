@@ -39,10 +39,10 @@ predict_height <- function(answers){
   return(as.numeric(height)[1])
 }
 
-# Cria o router Plumber programaticamente
+# Create the Plumber router programmatically
 pr <- plumber::pr()
 
-# Adiciona o endpoint /predict (POST)
+# Add the /predict (POST) endpoint
 pr <- pr %>% 
   plumber::pr_post(
     path = "/predict",
@@ -54,7 +54,7 @@ pr <- pr %>%
     comments = "Predicts height from the answers\n@param answers:list vector of answers (0 ou 1)"
   )
 
-# Adiciona o endpoint /health (GET)
+# Add the endpoint /health (GET)
 pr <- pr %>% 
   plumber::pr_get(
     path = "/health",
