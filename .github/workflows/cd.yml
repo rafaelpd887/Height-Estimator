@@ -36,7 +36,7 @@ jobs:
       - name: Build and push Backend image
         run: |
           IMAGE_BACKEND=southamerica-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/height-estimator-repo/height-estimator-api:${{ github.sha }}
-          docker build -t $IMAGE_BACKEND -f api/Dockerfile.api ./api
+          docker build -t $IMAGE_BACKEND -f api/Dockerfile.api .
           docker push $IMAGE_BACKEND
 
       - name: Deploy Backend to Cloud Run
