@@ -35,14 +35,15 @@ jobs:
       # ==================== BACKEND API ====================
       - name: Build and push Backend image
         run: |
-          IMAGE_BACKEND=southamerica-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/height-estimator-repo/height-estimator-api:${{ github.sha }}
-          docker build -t $IMAGE_BACKEND -f api/Dockerfile.api .
-          docker push $IMAGE_BACKEND
+          IMAGE_BACKEND="southamerica-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/height-estimator-repo/height-estimator-api:${{ github.sha }}"
+          docker build -t "$IMAGE_BACKEND" -f api/Dockerfile.api .
+          docker push "$IMAGE_BACKEND"
+          echo "IMAGE_BACKEND=$IMAGE_BACKEND" >> $GITHUB_ENV   # salva a var pro próximo step
 
       - name: Deploy Backend to Cloud Run
         run: |
           gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE_BACKEND }} \
-            --image $IMAGE_BACKEND \
+            --image "${{ env.IMAGE_BACKEND }}" \
             --region southamerica-east1 \
             --platform managed \
             --allow-unauthenticated \
@@ -52,14 +53,15 @@ jobs:
       # ==================== FRONTEND SHINY ====================
       - name: Build and push Frontend image
         run: |
-          IMAGE_FRONTEND=southamerica-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/height-estimator-repo/height-estimator-frontend:${{ github.sha }}
-          docker build -t $IMAGE_FRONTEND -f frontend/Dockerfile.shiny ./frontend
-          docker push $IMAGE_FRONTEND
+          IMAGE_FRONTEND="southamerica-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/height-estimator-repo/height-estimator-frontend:${{ github.sha }}"
+          docker build -t "$IMAGE_FRONTEND" -f frontend/Dockerfile.shiny ./frontend
+          docker push "$IMAGE_FRONTEND"
+          echo "IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
 
       - name: Deploy Frontend to Cloud Run
         run: |
           gcloud run deploy ${{ secrets.CLOUD_RUN_SERVICE_FRONTEND }} \
-            --image $IMAGE_FRONTEND \
+            --image "${{ env.IMAGE_FRONTEND }}" \
             --region southamerica-east1 \
             --platform managed \
             --allow-unauthenticated \
