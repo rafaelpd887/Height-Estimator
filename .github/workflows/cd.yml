@@ -54,7 +54,7 @@ jobs:
       - name: Build and push Frontend image
         run: |
           IMAGE_FRONTEND="southamerica-east1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/height-estimator-repo/height-estimator-frontend:${{ github.sha }}"
-          docker build -t "$IMAGE_FRONTEND" -f frontend/Dockerfile.shiny ./frontend
+          docker build -t "$IMAGE_FRONTEND" -f frontend/Dockerfile.shiny .
           docker push "$IMAGE_FRONTEND"
           echo "IMAGE_FRONTEND=$IMAGE_FRONTEND" >> $GITHUB_ENV
 
