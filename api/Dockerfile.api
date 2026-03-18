@@ -16,7 +16,8 @@ RUN install2.r --error --skipinstalled \
     RcppArmadillo \
     plumber \
     mirt \
-    jsonlite
+    jsonlite \
+	here
 
 # Copy code and model
 COPY api/plumber.R /app/plumber.R
