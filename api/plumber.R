@@ -64,7 +64,7 @@ pr <- pr %>%
     comments = "Health check"
   )
 
-# Inicia o servidor
+# Starts the server
 pr$run(
   host = "0.0.0.0",
   port = 8000,
