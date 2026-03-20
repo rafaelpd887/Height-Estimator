@@ -120,4 +120,4 @@ Models (.rds) are loaded by the API to make predictions.
 Questionnaire structure is in training/ for reference and retraining.
 
 This repo demonstrates a full ML pipeline with API and front-end, ready for containerization and cloud deployment.
-"<!-- Teste permissÆo actAs -->" 
+"<!-- Teste permissÆ¯ actAs -->" 
