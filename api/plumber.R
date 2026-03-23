@@ -3,7 +3,7 @@ library(mirt)
 library(here)
 library(logger)
 
-source("logger.R")
+source("api/logger.R")
 
 model_tri <- readRDS("../models/model_irt.rds")
 model_lm <- readRDS("../models/model_lm.rds")
