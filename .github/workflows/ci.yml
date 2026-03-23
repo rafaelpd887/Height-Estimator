@@ -51,7 +51,7 @@ jobs:
             'dplyr',
             'tibble',
             'purrr',
-            'fs'
+            'fs',
             'logger'
           ), repos = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest', dependencies = TRUE)"
 
