@@ -52,6 +52,7 @@ jobs:
             'tibble',
             'purrr',
             'fs'
+            'logger'
           ), repos = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest', dependencies = TRUE)"
 
       - name: Start Plumber API in background
