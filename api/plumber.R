@@ -1,72 +1,77 @@
 library(plumber)
 library(mirt)
 library(here)
+library(logger)
 
-model_tri <- readRDS(here("models/model_irt.rds"))
-model_lm <- readRDS(here("models/model_lm.rds"))
-item_names <- readRDS(here("models/item_names.rds"))
+source("logger.R")
+
+model_tri <- readRDS("../models/model_irt.rds")
+model_lm <- readRDS("../models/model_lm.rds")
+item_names <- readRDS("../models/item_names.rds")
 
 predict_height <- function(answers){
- 
+  
   answers <- as.numeric(unlist(answers))
- 
-  print("received answers:")
-  print(answers)
-  print(length(answers))
- 
+  
+  log_info("received answers: {answers}")
+  log_info("length: {length(answers)}")
+  
   response_df <- as.data.frame(t(answers))
   colnames(response_df) <- item_names
- 
+  
   theta_matrix <- fscores(
     model_tri,
     response.pattern = response_df,
     method = "EAP"
   )
- 
-  print("theta_matrix:")
-  print(theta_matrix)
- 
+  
   theta <- as.numeric(theta_matrix[1, "F1"])
-  print(paste("theta:", theta))
- 
+  log_info("theta: {theta}")
+  
   height <- predict(
     model_lm,
     newdata = data.frame(theta = theta)
   )
- 
-  print(paste("predicted height:", height))
- 
+  
+  log_info("Predicted height = {round(height, 2)} m")
+  
   return(as.numeric(height)[1])
 }
 
-# Create the Plumber router programmatically
 pr <- plumber::pr()
 
-# Add the /predict (POST) endpoint
 pr <- pr %>% 
   plumber::pr_post(
     path = "/predict",
     handler = function(answers){
-      answers_vector <- as.numeric(unlist(answers))
-      result <- predict_height(answers_vector)
-      list(height = result)
-    },
-    comments = "Predicts height from the answers\n@param answers:list vector of answers (0 ou 1)"
+      
+      log_info("POST /predict called")
+      
+      result <- tryCatch({
+        predict_height(answers)
+      }, error = function(e){
+        log_error("error: {e$message}")
+        return(NULL)
+      })
+      
+      if (is.null(result)) {
+        return(list(error = "Prediction failed"))
+      }
+      
+      list(
+        height = round(result, 2),
+        unit = "meters"
+      )
+    }
   )
 
-# Add the endpoint /health (GET)
 pr <- pr %>% 
   plumber::pr_get(
     path = "/health",
     handler = function(){
+      log_info("health called")
       list(status = "ok")
-    },
-    comments = "Health check"
+    }
   )
 
-# Starts the server
-pr$run(
-  host = "0.0.0.0",
-  port = 8000,
-  quiet = FALSE
-)
+pr$run(host = "0.0.0.0", port = 8000)
