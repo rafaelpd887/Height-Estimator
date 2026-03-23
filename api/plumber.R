@@ -5,9 +5,9 @@ library(logger)
 
 source("api/logger.R")
 
-model_tri <- readRDS("../models/model_irt.rds")
-model_lm <- readRDS("../models/model_lm.rds")
-item_names <- readRDS("../models/item_names.rds")
+model_tri <- readRDS(here("models", "model_irt.rds"))
+model_lm  <- readRDS(here("models", "model_lm.rds"))
+item_names <- readRDS(here("models", "item_names.rds"))
 
 predict_height <- function(answers){
   
