@@ -33,13 +33,12 @@ jobs:
         run: |
           Rscript -e "rsconnect::writeManifest(appDir = 'frontend', appMode = 'shiny')"
 
-      - name: Commit manifest
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add frontend/manifest.json
-
-          if ! git diff --cached --quiet; then
-            git commit -m "Add Posit Connect manifest"
-            git push
-          fi
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add Posit Connect manifest"
+          title: "Add Posit Connect manifest"
+          body: "Adds the manifest.json generated for Posit Connect Cloud."
+          branch: "add-posit-manifest"
+          delete-branch: true
