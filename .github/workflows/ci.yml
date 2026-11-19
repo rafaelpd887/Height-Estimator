@@ -29,6 +29,7 @@ jobs:
             libcurl4-openssl-dev \
             libssl-dev \
             libxml2-dev \
+            libicu70 \
             libfontconfig1-dev \
             libharfbuzz-dev \
             libfribidi-dev \
