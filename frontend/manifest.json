@@ -1008,6 +1008,9 @@
     "app.R": {
       "checksum": "adacc101e953b0f7f8775f3a838590eb"
     },
+    "data/.gitkeep": {
+      "checksum": "68b329da9893e34099c7d8ad5cb9c940"
+    },
     "Dockerfile.shiny": {
       "checksum": "9bf44506609684f4f2c815b6535452f4"
     }
