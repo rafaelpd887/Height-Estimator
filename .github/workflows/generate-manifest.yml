@@ -1,0 +1,45 @@
+
+name: Generate Posit Manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/generate-manifest.yml'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.1'
+          use-public-rspm: true
+
+      - name: Install packages
+        run: |
+          Rscript -e "install.packages(c('rsconnect', 'shiny', 'httr'))"
+
+      - name: Generate manifest
+        run: |
+          Rscript -e "rsconnect::writeManifest(appDir = 'frontend', appMode = 'shiny')"
+
+      - name: Commit manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/manifest.json
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Add Posit Connect manifest"
+            git push
+          fi
