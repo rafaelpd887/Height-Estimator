@@ -65,8 +65,10 @@ pr <- pr %>%
   )
 
 # Starts the server
+port <- as.integer(Sys.getenv("PORT", "8000"))
+
 pr$run(
   host = "0.0.0.0",
-  port = 8000,
+  port = port,
   quiet = FALSE
 )
