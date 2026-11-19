@@ -40,6 +40,14 @@ jobs:
             liblapack-dev \
             gfortran
 
+      - name: Install compatible Deriv version
+        run: |
+          Rscript -e "install.packages(
+            'https://cran.r-project.org/src/contrib/Archive/Deriv/Deriv_4.2.0.tar.gz',
+             repos = NULL,
+             type = 'source'
+           )"
+
       - name: Install R packages manually
         run: |
           Rscript -e "install.packages(c(
