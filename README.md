@@ -5,7 +5,7 @@
 
 This project predicts a person's height using answers from a binary questionnaire.
 
-Try the **live app here**: [Height Estimator](https://height-estimator-frontend-1089523492288.southamerica-east1.run.app/)
+Try the **live app here**: [Height Estimator](https://01a1f641-115e-a200-808a-47bafe5f1e1d.share.connect.posit.cloud/)
 
 The system uses **Item Response Theory (IRT)** to estimate a latent trait (θ) from the answers, and then predicts height using a **Linear Regression model**.
 
